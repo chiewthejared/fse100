@@ -1,4 +1,8 @@
 let currentScreen = 0;
+let circleX = 100;
+let circleY = 0;
+let xSpeed = 1.5;
+let ySpeed = 1.5;
 
 function setup() {
   createCanvas(600, 450);
@@ -71,6 +75,35 @@ function screen1() {
   
   playButton.show();
   quitButton.show();
+
+  background(100, 149, 237);
+  
+  // Game Name
+  textSize(80);
+  fill(255);
+  stroke(0);
+  strokeWeight(0);
+  textStyle(BOLD);
+  text('Game Name', 70, 140);
+  
+  // Whale Image
+  rotate(QUARTER_PI / 4);
+  image(whale, 450, 100, 144+36, 144+36); 
+  // image(nameOfImage, x, y, length, width)
+  
+  playButton.show();
+  quitButton.show();  
+  
+  fill(171, 142, 121); // MAKE DARK BLUE
+  circle(circleX, circleY, 100);
+  circleX = circleX + xSpeed;
+  circleY = circleY + ySpeed;
+  if(circleX < 35 || circleX > width - 35) {
+    xSpeed = xSpeed * - 1;
+  }
+  if(circleY < 0 || circleY > height - 35) {
+    ySpeed = ySpeed * - 1;
+  }
 }
   
 function screen2() {

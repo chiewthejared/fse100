@@ -24,6 +24,18 @@ function goToScreen3() {
   currentScreen = 2;
 }
 
+function goToScreen4() {
+  currentScreen = 3;
+}
+
+function goToScreen5() {
+  currentScreen = 4;
+}
+
+function goToScreen6() {
+  currentScreen = 5;
+}
+
 function draw() {
   if(currentScreen === 0) {
     screen1();
@@ -31,10 +43,17 @@ function draw() {
     screen2();
   } else if (currentScreen === 2) {
     screen3();
+  } else if (currentScreen === 3) {
+    screen4();
+  } else if (currentScreen === 4) {
+    screen5();
+  } else if (currentScreen === 5) {
+    screen6();
   }
 }
 
 function screen1() {
+  // MAIN MENU SCREEN - JARED
   background(100, 149, 237);
   
   // Game Name
@@ -55,6 +74,7 @@ function screen1() {
 }
   
 function screen2() {
+  // SELECT GAME SCREEN - KEVIN
   background(0, 0, 0);
   
   fill(255);
@@ -62,4 +82,20 @@ function screen2() {
   
   playButton.hide();
   quitButton.hide();
+}
+
+function screen3() {
+  // GAME 1 - ARIANNA
+}
+
+function screen4() {
+  // GAME 2 - GRAY
+}
+
+function screen5() {
+  // GAME 3 - 
+}
+
+function screen6() {
+  // RESULTS SCREEN - JARED
 }

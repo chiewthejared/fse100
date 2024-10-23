@@ -1,4 +1,6 @@
 let currentScreen = 0;
+
+// For Screen 1
 let circleX = 100;
 let circleY = 0;
 let xSpeed = 1.5;

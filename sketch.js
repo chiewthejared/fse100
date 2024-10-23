@@ -59,6 +59,17 @@ function draw() {
 function screen1() {
   // MAIN MENU SCREEN - JARED
   background(100, 149, 237);
+
+  fill(0, 0, 250); // MAKE DARK BLUE
+  circle(circleX, circleY, 200);
+  circleX = circleX + xSpeed;
+  circleY = circleY + ySpeed;
+  if(circleX < 35 || circleX > width - 35) {
+    xSpeed = xSpeed * - 1;
+  }
+  if(circleY < 0 || circleY > height - 35) {
+    ySpeed = ySpeed * - 1;
+  }
   
   // Game Name
   textSize(80);
@@ -93,17 +104,6 @@ function screen1() {
   
   playButton.show();
   quitButton.show();  
-  
-  fill(171, 142, 121); // MAKE DARK BLUE
-  circle(circleX, circleY, 100);
-  circleX = circleX + xSpeed;
-  circleY = circleY + ySpeed;
-  if(circleX < 35 || circleX > width - 35) {
-    xSpeed = xSpeed * - 1;
-  }
-  if(circleY < 0 || circleY > height - 35) {
-    ySpeed = ySpeed * - 1;
-  }
 }
   
 function screen2() {

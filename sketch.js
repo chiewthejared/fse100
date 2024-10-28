@@ -16,10 +16,31 @@ function setup() {
   quitButton = createButton('Quit');
   quitButton.position(240, 300);
   quitButton.mousePressed(goToScreen3);
+
+  skill1Button = createButton('Motor Skill 1');
+  skill1Button.position(150, 90);
+  skill1Button.mousePressed(goToScreen4);
+  skill1Button.hide(); // Start hidden
+
+  skill2Button = createButton('Motor Skill 2');
+  skill2Button.position(150, 180);
+  skill2Button.mousePressed(goToScreen5);
+  skill2Button.hide(); 
+
+  skill3Button = createButton('Motor Skill 3');
+  skill3Button.position(150, 270);
+  skill3Button.mousePressed(goToScreen6);
+  skill3Button.hide(); 
+  
+  nextButton = createButton('Next');
+  nextButton.position(30,350);
+  nextButton.mousePressed(goToScreen7);
+  nextButton.hide();
 }
 
 function preload(){
   whale = loadImage('whale.png');
+  giraffe = loadImage('giraffe.png')
 }
 
 function goToScreen2() {
@@ -41,6 +62,9 @@ function goToScreen5() {
 function goToScreen6() {
   currentScreen = 5;
 }
+function goToScreen7(){
+  currentScreen = 6;
+}
 
 function draw() {
   if(currentScreen === 0) {
@@ -55,6 +79,8 @@ function draw() {
     screen5();
   } else if (currentScreen === 5) {
     screen6();
+  } else if (currentScreen === 6) {
+      screen7();
   }
 }
 
@@ -82,55 +108,129 @@ function screen1() {
   text('Game Name', 70, 140);
   
   // Whale Image
+  push(); 
   rotate(QUARTER_PI / 4);
-  image(whale, 450, 100, 144+36, 144+36); 
-  // image(nameOfImage, x, y, length, width)
+  image(whale, 450, 100, 180, 180);
+  pop(); 
+  // Giraffe Image
+  push(); 
+  image(giraffe, 30, 190, 175, 165);
+  pop(); 
+  
   
   playButton.show();
   quitButton.show();
-
-  background(100, 149, 237);
-  
-  // Game Name
-  textSize(80);
-  fill(255);
-  stroke(0);
-  strokeWeight(0);
-  textStyle(BOLD);
-  text('Game Name', 70, 140);
-  
-  // Whale Image
-  rotate(QUARTER_PI / 4);
-  image(whale, 450, 100, 144+36, 144+36); 
-  // image(nameOfImage, x, y, length, width)
-  
-  playButton.show();
-  quitButton.show();  
+  skill1Button.hide();
+  skill2Button.hide();
+  skill3Button.hide();
 }
   
 function screen2() {
-  // SELECT GAME SCREEN - KEVIN
-  background(0, 0, 0);
+  background('pink');
   
   fill(255);
-  text('This is screen 2', 250, 250);
-  
+  textSize(35);
+  text('Game Name', 190, 60);
+
+ 
   playButton.hide();
-  quitButton.hide();
+  quitButton.show();
+  quitButton.position(240, 360);
+  // Show skill buttons
+  skill1Button.show();
+  skill2Button.show();
+  skill3Button.show();
+  
+  push(); 
+  rotate(QUARTER_PI / 4);
+  image(whale, 500, 5, 120, 120);
+  pop();
+  
+  push(); 
+  image(giraffe, 5, 190, 145, 135);
+  pop();
 }
 
+//Quit Screen
 function screen3() {
-  // GAME 1 - ARIANNA
+  background('maroon');
+  
+  fill(255);
+  textSize(35);
+  text('Bye!', 200, 200);
+
+  // Hide all buttons
+  playButton.hide();
+  quitButton.hide();
+  skill1Button.hide();
+  skill2Button.hide();
+  skill3Button.hide();
 }
 
 function screen4() {
-  // GAME 2 - GRAY
+  background(100, 105, 105);
+  
+  fill(255);
+  textSize(35);
+  text('Motor Skill 1 Screen', 150, 50);
+
+  
+  playButton.hide();
+  quitButton.show();
+  quitButton.position(450, 350);
+  skill1Button.hide();
+  skill2Button.hide();
+  skill3Button.hide();
+  nextButton.show();
 }
 
 function screen5() {
-  // GAME 3 - 
+  background(100, 105, 105);
+  
+  fill(255);
+  textSize(35);
+  text('Motor Skill 2 Screen', 200, 200);
+
+  
+  playButton.hide();
+  quitButton.show();
+  quitButton.position(450, 350);
+  skill1Button.hide();
+  skill2Button.hide();
+  skill3Button.hide();
+  nextButton.show();
 }
 
 function screen6() {
-  // RESULTS SCREEN - JARED
+  background(100, 105, 105);
+  
+  fill(255);
+  textSize(35);
+  text('Motor Skill 3 Screen', 200, 200);
+
+  
+  playButton.hide();
+  quitButton.show();
+  quitButton.position(450, 350);
+  skill1Button.hide();
+  skill2Button.hide();
+  skill3Button.hide();
+  nextButton.show();
+}
+
+function screen7() {
+   background('#FDE791');
+  
+  fill(0);
+  textSize(35);
+  text('Congrats On Learning How To', 50, 100);
+  text('Motor Skill', 200, 200)
+
+  
+  playButton.hide();
+  quitButton.show();
+  quitButton.position(450, 350);
+  skill1Button.hide();
+  skill2Button.hide();
+  skill3Button.hide();
 }

@@ -1,10 +1,13 @@
 let currentScreen = 0;
 
 // For Screen 1
-let circleX = 100;
-let circleY = 0;
-let xSpeed = 1.5;
-let ySpeed = 1.5;
+let circleX1 = 100, circleY1 = 0, xSpeed1 = 1.5, ySpeed1 = 1.5;
+let circleX2 = 500, circleY2 = 400, xSpeed2 = -1.2, ySpeed2 = -1.2;
+let circleX3 = 300, circleY3 = 200, xSpeed3 = 1.0, ySpeed3 = -1.5;
+let circleX4 = 150, circleY4 = 250, xSpeed4 = 1.8, ySpeed4 = 1.2;
+let circleX5 = 400, circleY5 = 100, xSpeed5 = -1.3, ySpeed5 = 1.7;
+let circleX6 = 250, circleY6 = 350, xSpeed6 = 1.4, ySpeed6 = -1.4;
+let circleX7 = 350, circleY7 = 150, xSpeed7 = -1.5, ySpeed7 = 1.3;
 
 function setup() {
   createCanvas(600, 450);
@@ -88,16 +91,65 @@ function screen1() {
   // MAIN MENU SCREEN - JARED
   background(100, 149, 237);
 
-  fill(0, 0, 250); // MAKE DARK BLUE
-  circle(circleX, circleY, 200);
-  circleX = circleX + xSpeed;
-  circleY = circleY + ySpeed;
-  if(circleX < 35 || circleX > width - 35) {
-    xSpeed = xSpeed * - 1;
-  }
-  if(circleY < 0 || circleY > height - 35) {
-    ySpeed = ySpeed * - 1;
-  }
+  let colors = [
+    [4, 55, 242], [0, 71, 171], [137, 207, 240]
+  ];
+
+  // Circle1 (Broken)
+  fill(4, 55, 242);
+  circle(circleX1, circleY1, 1);
+  circleX1 += xSpeed1;
+  circleY1 += ySpeed1;
+  if(circleX1 < 25 || circleX1 > width - 25) xSpeed1 *= -1;
+  if(circleY1 < 25 || circleY1 > height - 25) ySpeed1 *= -1;
+
+  // Circle2 (Working)
+  fill(colors[1]);
+  circle(circleX2, circleY2, 150);
+  circleX2 += xSpeed2;
+  circleY2 += ySpeed2;
+  if(circleX2 < 25 || circleX2 > width - 25) xSpeed2 *= -1;
+  if(circleY2 < 25 || circleY2 > height - 25) ySpeed2 *= -1;
+  
+  // Circle3 (Working)
+  fill(colors[1]);
+  circle(circleX3, circleY3, 200);
+  circleX3 += xSpeed3;
+  circleY3 += ySpeed3;
+  if(circleX3 < 25 || circleX3 > width - 25) xSpeed3 *= -1;
+  if(circleY3 < 25 || circleY3 > height - 25) ySpeed3 *= -1;
+  
+  // Circle4 (Working)
+  fill(colors[2]);
+  circle(circleX4, circleY4, 150);
+  circleX4 += xSpeed4;
+  circleY4 += ySpeed4;
+  if(circleX4 < 25 || circleX4 > width - 25) xSpeed4 *= -1;
+  if(circleY4 < 25 || circleY4 > height - 25) ySpeed4 *= -1;
+  
+  // Circle5 (Working)
+  fill(colors[2]);
+  circle(circleX5, circleY5, 200);
+  circleX5 += xSpeed5;
+  circleY5 += ySpeed5;
+  if(circleX5 < 25 || circleX5 > width - 25) xSpeed5 *= -1;
+  if(circleY5 < 25 || circleY5 > height - 25) ySpeed5 *= -1;
+  
+  // Circle6 (Working)
+  fill(colors[0]);
+  circle(circleX6, circleY6, 150);
+  circleX6 += xSpeed6;
+  circleY6 += ySpeed6;
+  if(circleX6 < 25 || circleX6 > width - 25) xSpeed6 *= -1;
+  if(circleY6 < 25 || circleY6 > height - 25) ySpeed6 *= -1;
+  
+  // Circle7 (Working)
+  fill(colors[0]);
+  circle(circleX7, circleY7, 200);
+  circleX7 += xSpeed7;
+  circleY7 += ySpeed7;
+  if(circleX7 < 25 || circleX7 > width - 25) xSpeed7 *= -1;
+  if(circleY7 < 25 || circleY7 > height - 25) ySpeed7 *= -1;
   
   // Game Name
   textSize(80);

@@ -233,4 +233,5 @@ function screen7() {
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
+  nextButton.hide();
 }

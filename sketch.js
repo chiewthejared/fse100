@@ -1,13 +1,13 @@
 let currentScreen = 0;
 
 // For Screen 1
-let circleX1 = 100, circleY1 = 0, xSpeed1 = 1.5, ySpeed1 = 1.5;
-let circleX2 = 500, circleY2 = 400, xSpeed2 = -1.2, ySpeed2 = -1.2;
-let circleX3 = 300, circleY3 = 200, xSpeed3 = 1.0, ySpeed3 = -1.5;
-let circleX4 = 150, circleY4 = 250, xSpeed4 = 1.8, ySpeed4 = 1.2;
-let circleX5 = 400, circleY5 = 100, xSpeed5 = -1.3, ySpeed5 = 1.7;
-let circleX6 = 250, circleY6 = 350, xSpeed6 = 1.4, ySpeed6 = -1.4;
-let circleX7 = 350, circleY7 = 150, xSpeed7 = -1.5, ySpeed7 = 1.3;
+let circleX1 = 100, circleY1 = 400, xSpeed1 = 1.5, ySpeed1 = 1.5;
+let circleX2 = 500, circleY2 = 50, xSpeed2 = -1.2, ySpeed2 = -1.2;
+let circleX3 = 150, circleY3 = 350, xSpeed3 = 1.0, ySpeed3 = -1.5;
+let circleX4 = 450, circleY4 = 100, xSpeed4 = 1.8, ySpeed4 = 1.2;
+let circleX5 = 200, circleY5 = 300, xSpeed5 = -1.3, ySpeed5 = 1.7;
+let circleX6 = 400, circleY6 = 150, xSpeed6 = 1.4, ySpeed6 = -1.4;
+let circleX7 = 250, circleY7 = 250, xSpeed7 = -1.5, ySpeed7 = 1.3;
 
 function setup() {
   createCanvas(600, 450);

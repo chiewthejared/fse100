@@ -1,3 +1,4 @@
+let song;
 let currentScreen = 0;
 
 // For Screen 1
@@ -8,6 +9,7 @@ let circleX4 = 450, circleY4 = 100, xSpeed4 = 1.8, ySpeed4 = 1.2;
 let circleX5 = 200, circleY5 = 300, xSpeed5 = -1.3, ySpeed5 = 1.7;
 let circleX6 = 400, circleY6 = 150, xSpeed6 = 1.4, ySpeed6 = -1.4;
 let circleX7 = 250, circleY7 = 250, xSpeed7 = -1.5, ySpeed7 = 1.3;
+let circleX8 = 100, circleY8 = 250, xSpeed8 = 1.5, ySpeed8 = 1.3;
 
 function setup() {
   createCanvas(600, 450);
@@ -42,6 +44,10 @@ function setup() {
 }
 
 function preload(){
+  song = loadSound('Menu Music.mp3', () => {
+    song.loop();
+  });
+  
   whale = loadImage('whale.png');
   giraffe = loadImage('giraffe.png')
 }
@@ -92,12 +98,12 @@ function screen1() {
   background(100, 149, 237);
 
   let colors = [
-    [4, 55, 242], [0, 71, 171], [137, 207, 240]
+    [4, 55, 242], [0, 71, 171], [137, 207, 240], [65,105,225]
   ];
 
   // Circle1 (Broken)
-  fill(4, 55, 242);
-  circle(circleX1, circleY1, 1);
+  fill(colors[3]);
+  circle(circleX1, circleY1, 150);
   circleX1 += xSpeed1;
   circleY1 += ySpeed1;
   if(circleX1 < 25 || circleX1 > width - 25) xSpeed1 *= -1;
@@ -150,6 +156,14 @@ function screen1() {
   circleY7 += ySpeed7;
   if(circleX7 < 25 || circleX7 > width - 25) xSpeed7 *= -1;
   if(circleY7 < 25 || circleY7 > height - 25) ySpeed7 *= -1;
+
+  // Circle8 (Working)
+  fill(colors[3]);
+  circle(circleX8, circleY8, 200);
+  circleX8 += xSpeed8;
+  circleY8 += ySpeed8;
+  if(circleX8 < 25 || circleX8 > width - 25) xSpeed8 *= -1;
+  if(circleY8 < 25 || circleY8 > height - 25) ySpeed8 *= -1;
   
   // Game Name
   textSize(80);
@@ -157,18 +171,17 @@ function screen1() {
   stroke(0);
   strokeWeight(0);
   textStyle(BOLD);
-  text('Game Name', 70, 140);
+  textAlign(CENTER);
+  text('Tiny Tumbles', 300, 140);
   
   // Whale Image
-  push(); 
-  rotate(QUARTER_PI / 4);
-  image(whale, 450, 100, 180, 180);
+  push();
+  image(whale, 45, 170, 180, 180);
   pop(); 
   // Giraffe Image
   push(); 
-  image(giraffe, 30, 190, 175, 165);
+  image(giraffe, 400, 190, 175, 165);
   pop(); 
-  
   
   playButton.show();
   quitButton.show();

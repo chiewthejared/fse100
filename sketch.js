@@ -11,6 +11,43 @@ let circleX6 = 400, circleY6 = 150, xSpeed6 = 1.4, ySpeed6 = -1.4;
 let circleX7 = 250, circleY7 = 250, xSpeed7 = -1.5, ySpeed7 = 1.3;
 let circleX8 = 100, circleY8 = 250, xSpeed8 = 1.5, ySpeed8 = 1.3;
 
+let confetti = [];
+let confettiColor = ['#ff8b00', '#ff0051', '#ff4db8', '#b5ff8b', '#8bc6ff', '#d8ff8b', '#c38bff', '#ff8b8b'];
+
+class Confetti {
+  constructor(_x, _y, _s) {
+    this.x = _x;
+    this.y = _y;
+    this.speed = _s;
+    this.time = random(0, 100);
+    this.color = random(confettiColor);
+    this.amp = random(2, 30);
+    this.phase = random(0.5, 2);
+    this.size = random(10, 20);
+    this.form = round(random(0, 1));
+  }
+
+  confettiDisplay() {
+    fill(this.color);
+    noStroke();
+    push();
+    translate(this.x, this.y);
+    translate(this.amp * sin(this.time * this.phase), this.speed * cos(2 * this.time * this.phase));
+    rotate(this.time);
+    rectMode(CENTER);
+    scale(cos(this.time / 4), sin(this.time / 4));
+    if (this.form === 0) {
+      rect(0, 0, this.size, this.size / 2);
+    } else {
+      ellipse(0, 0, this.size);
+    }
+    pop();
+
+    this.time += 0.1;
+    this.speed += 1 / 200;
+    this.y += this.speed;
+  }
+}
 function setup() {
   createCanvas(600, 450);
   
@@ -288,9 +325,30 @@ function screen7() {
   
   fill(0);
   textSize(35);
-  text('Congrats On Learning How To', 50, 100);
-  text('Motor Skill', 200, 200)
-
+  text('Congrats On Learning How To', 50, 120);
+  text('Motor Skill!', 200, 200);
+  fill(0);
+  textSize(20);
+  text('Feel Free To Learn The', 190, 280);
+  text('Other Motor Skills!', 200, 320);
+  
+   if (confetti.length < 100) {
+    confetti.push(new Confetti(random(width), 0, random(0.5, 2)));
+  }
+  for (let c of confetti) {
+    c.confettiDisplay();
+    if (c.y > height) {
+      confetti.splice(confetti.indexOf(c), 1); 
+    }
+  }
+  push(); 
+  rotate(QUARTER_PI / 4);
+  image(whale, 470, 60, 170, 170);
+  pop();
+  
+  push(); 
+  image(giraffe, 2, 250, 175, 165);
+  pop();
   
   playButton.hide();
   quitButton.show();

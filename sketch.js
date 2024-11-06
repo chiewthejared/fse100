@@ -232,7 +232,7 @@ function screen2() {
   
   fill(255);
   textSize(35);
-  text('Game Name', 190, 60);
+  text('Game Name', 300, 60);
 
  
   playButton.hide();
@@ -323,14 +323,14 @@ function screen6() {
 function screen7() {
    background('#FDE791');
   
-  fill(0);
+   fill(0);
   textSize(35);
-  text('Congrats On Learning How To', 50, 120);
-  text('Motor Skill!', 200, 200);
+  text('Congrats On Learning How To', 300, 120);
+  text('Motor Skill!', 300, 200);
   fill(0);
   textSize(20);
-  text('Feel Free To Learn The', 190, 280);
-  text('Other Motor Skills!', 200, 320);
+  text('Feel Free To Learn The', 300, 280);
+  text('Other Motor Skills!', 300, 320);
   
    if (confetti.length < 100) {
     confetti.push(new Confetti(random(width), 0, random(0.5, 2)));

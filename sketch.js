@@ -138,7 +138,7 @@ function screen1() {
     [4, 55, 242], [0, 71, 171], [137, 207, 240], [65,105,225]
   ];
 
-  // Circle1 (Broken)
+  // Circle1 (Working)
   fill(colors[3]);
   circle(circleX1, circleY1, 150);
   circleX1 += xSpeed1;

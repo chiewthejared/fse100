@@ -318,7 +318,11 @@ function screen2() {
   textAlign(CENTER);
   text('Game Select', 300, 70);
 
- 
+  // Subtext (bottom part of screen)
+  textSize(10);
+  fill(225);
+  text('FSE Final Project by Jared, Kevin, Ariana & Gray', 120, 445);
+
   playButton.hide();
   quitToMenuButton.show();
   quitToMenuButton.position(240, 360);

@@ -55,9 +55,13 @@ function setup() {
   playButton.position(240, 200);
   playButton.mousePressed(goToScreen2);
   
-  quitButton = createButton('Quit');
-  quitButton.position(240, 300);
-  quitButton.mousePressed(goToScreen3);
+  quitToMenuButton = createButton('Quit');
+  quitToMenuButton.position(240, 300);
+  quitToMenuButton.mousePressed(goToScreen1);
+  
+  quitToGameSelectButton = createButton('Quit');
+  quitToGameSelectButton.position(240, 300);
+  quitToGameSelectButton.mousePressed(goToScreen2);
 
   skill1Button = createButton('Motor Skill 1');
   skill1Button.position(150, 90);
@@ -87,6 +91,10 @@ function preload(){
   
   whale = loadImage('whale.png');
   giraffe = loadImage('giraffe.png')
+}
+
+function goToScreen1() {
+  currentScreen = 0;
 }
 
 function goToScreen2() {
@@ -221,36 +229,104 @@ function screen1() {
   pop(); 
   
   playButton.show();
-  quitButton.show();
+  quitToMenuButton.hide();
+  quitToGameSelectButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
+  nextButton.hide();
 }
   
 function screen2() {
-  background('pink');
+  // GAME SELECT SCREEN - JARED
+  background(100, 149, 237);
   
+    let colors = [
+    [4, 55, 242], [0, 71, 171], [137, 207, 240], [65,105,225]
+  ];
+
+  // Circle1 (Working)
+  fill(colors[3]);
+  circle(circleX1, circleY1, 150);
+  circleX1 += xSpeed1;
+  circleY1 += ySpeed1;
+  if(circleX1 < 25 || circleX1 > width - 25) xSpeed1 *= -1;
+  if(circleY1 < 25 || circleY1 > height - 25) ySpeed1 *= -1;
+
+  // Circle2 (Working)
+  fill(colors[1]);
+  circle(circleX2, circleY2, 150);
+  circleX2 += xSpeed2;
+  circleY2 += ySpeed2;
+  if(circleX2 < 25 || circleX2 > width - 25) xSpeed2 *= -1;
+  if(circleY2 < 25 || circleY2 > height - 25) ySpeed2 *= -1;
+  
+  // Circle3 (Working)
+  fill(colors[1]);
+  circle(circleX3, circleY3, 200);
+  circleX3 += xSpeed3;
+  circleY3 += ySpeed3;
+  if(circleX3 < 25 || circleX3 > width - 25) xSpeed3 *= -1;
+  if(circleY3 < 25 || circleY3 > height - 25) ySpeed3 *= -1;
+  
+  // Circle4 (Working)
+  fill(colors[2]);
+  circle(circleX4, circleY4, 150);
+  circleX4 += xSpeed4;
+  circleY4 += ySpeed4;
+  if(circleX4 < 25 || circleX4 > width - 25) xSpeed4 *= -1;
+  if(circleY4 < 25 || circleY4 > height - 25) ySpeed4 *= -1;
+  
+  // Circle5 (Working)
+  fill(colors[2]);
+  circle(circleX5, circleY5, 200);
+  circleX5 += xSpeed5;
+  circleY5 += ySpeed5;
+  if(circleX5 < 25 || circleX5 > width - 25) xSpeed5 *= -1;
+  if(circleY5 < 25 || circleY5 > height - 25) ySpeed5 *= -1;
+  
+  // Circle6 (Working)
+  fill(colors[0]);
+  circle(circleX6, circleY6, 150);
+  circleX6 += xSpeed6;
+  circleY6 += ySpeed6;
+  if(circleX6 < 25 || circleX6 > width - 25) xSpeed6 *= -1;
+  if(circleY6 < 25 || circleY6 > height - 25) ySpeed6 *= -1;
+  
+  // Circle7 (Working)
+  fill(colors[0]);
+  circle(circleX7, circleY7, 200);
+  circleX7 += xSpeed7;
+  circleY7 += ySpeed7;
+  if(circleX7 < 25 || circleX7 > width - 25) xSpeed7 *= -1;
+  if(circleY7 < 25 || circleY7 > height - 25) ySpeed7 *= -1;
+
+  // Circle8 (Working)
+  fill(colors[3]);
+  circle(circleX8, circleY8, 200);
+  circleX8 += xSpeed8;
+  circleY8 += ySpeed8;
+  if(circleX8 < 25 || circleX8 > width - 25) xSpeed8 *= -1;
+  if(circleY8 < 25 || circleY8 > height - 25) ySpeed8 *= -1;
+  
+  // Game Name
+  textSize(70);
   fill(255);
-  textSize(35);
-  text('Game Name', 300, 60);
+  stroke(0);
+  strokeWeight(0);
+  textStyle(BOLD);
+  textAlign(CENTER);
+  text('Game Select', 300, 70);
 
  
   playButton.hide();
-  quitButton.show();
-  quitButton.position(240, 360);
-  // Show skill buttons
+  quitToMenuButton.show();
+  quitToMenuButton.position(240, 360);
+  quitToGameSelectButton.hide();
   skill1Button.show();
   skill2Button.show();
   skill3Button.show();
-  
-  push(); 
-  rotate(QUARTER_PI / 4);
-  image(whale, 500, 5, 120, 120);
-  pop();
-  
-  push(); 
-  image(giraffe, 5, 190, 145, 135);
-  pop();
+  nextButton.hide();
 }
 
 //Quit Screen
@@ -263,7 +339,8 @@ function screen3() {
 
   // Hide all buttons
   playButton.hide();
-  quitButton.hide();
+  quitToMenuButton.hide();
+  quitToGameSelectButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
@@ -278,8 +355,9 @@ function screen4() {
 
   
   playButton.hide();
-  quitButton.show();
-  quitButton.position(450, 350);
+  quitToGameSelectButton.show();
+  quitToGameSelectButton.position(450, 350);
+  quitToMenuButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
@@ -295,8 +373,9 @@ function screen5() {
 
   
   playButton.hide();
-  quitButton.show();
-  quitButton.position(450, 350);
+  quitToGameSelectButton.show();
+  quitToGameSelectButton.position(450, 350);
+  quitToMenuButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
@@ -312,8 +391,9 @@ function screen6() {
 
   
   playButton.hide();
-  quitButton.show();
-  quitButton.position(450, 350);
+  quitToGameSelectButton.show();
+  quitToGameSelectButton.position(450, 350);
+  quitToMenuButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
@@ -351,8 +431,9 @@ function screen7() {
   pop();
   
   playButton.hide();
-  quitButton.show();
-  quitButton.position(450, 350);
+  quitToGameSelectButton.show();
+  quitToGameSelectButton.position(450, 350);
+  quitToMenuButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();

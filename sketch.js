@@ -322,6 +322,15 @@ function screen2() {
   textSize(10);
   fill(225);
   text('FSE Final Project by Jared, Kevin, Ariana & Gray', 120, 445);
+  
+  // Whale Image
+  push();
+  image(whale, 5, 170, 140, 140);
+  pop(); 
+  // Giraffe Image
+  push(); 
+  image(giraffe, 450, 190, 175, 165);
+  pop(); 
 
   playButton.hide();
   quitToMenuButton.show();

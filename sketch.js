@@ -228,6 +228,11 @@ function screen1() {
   image(giraffe, 400, 190, 175, 165);
   pop(); 
   
+  // Subtext(bottom of the screen)
+  textSize(10);
+  fill(225);
+  text('FSE Final Project by Jared, Kevin, Ariana & Gray', 120, 445);
+  
   playButton.show();
   quitToMenuButton.hide();
   quitToGameSelectButton.hide();
@@ -317,11 +322,6 @@ function screen2() {
   textStyle(BOLD);
   textAlign(CENTER);
   text('Game Select', 300, 70);
-
-  // Subtext (bottom part of screen)
-  textSize(10);
-  fill(225);
-  text('FSE Final Project by Jared, Kevin, Ariana & Gray', 120, 445);
   
   // Whale Image
   push();

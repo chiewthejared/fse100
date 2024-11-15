@@ -136,6 +136,15 @@ function draw() {
   } else if (currentScreen === 6) {
       screen7();
   }
+  if (currentScreen === 0 || currentScreen === 1) {
+    if (!song.isPlaying()) {
+      song.play();
+    }
+  } else {
+    if (song.isPlaying()) {
+      song.stop();
+    } 
+  }
 }
 
 function screen1() {

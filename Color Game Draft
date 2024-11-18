@@ -1,0 +1,96 @@
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+}
+let colors = [
+  { name: "Red", value: [255, 0, 0] },
+  { name: "Green", value: [0, 255, 0] },
+  { name: "Blue", value: [0, 0, 255] },
+  { name: "Yellow", value: [255, 255, 0] },
+  { name: "Orange", value: [255, 165, 0] },
+  { name: "Brown", value: [165, 42, 42] },
+];
+
+let currentColor; // Color that needs to be chosen
+let targetColor; // The color name the user must choose
+let score = 0;
+
+function setup() {
+  createCanvas(600, 400);
+  pickNewColor();
+}
+
+function draw() {
+  background(255);
+  drawShape();
+  drawColors();
+  drawScore();
+}
+
+function drawShape() {
+  fill(currentColor ? currentColor : [200, 200, 200]); // Default gray if not filled
+  ellipse(300, 200, 100, 100); // Shape to be colored
+
+  fill(0);
+  textSize(24);
+  textAlign(CENTER);
+  text("Press the " + targetColor + " swatch!", width / 2, 50);
+}
+
+function drawColors() {
+  let startX = 50;
+  let startY = 300;
+  let swatchSize = 50;
+
+  for (let i = 0; i < colors.length; i++) {
+    fill(colors[i].value);
+    rect(startX + i * (swatchSize + 10), startY, swatchSize, swatchSize);
+    fill(0);
+    textSize(12);
+    text(
+      colors[i].name,
+      startX + i * (swatchSize + 10) + swatchSize / 2,
+      startY + swatchSize + 15
+    );
+  }
+}
+
+function mousePressed() {
+  let startX = 50;
+  let startY = 300;
+  let swatchSize = 50;
+
+  for (let i = 0; i < colors.length; i++) {
+    if (
+      mouseX > startX + i * (swatchSize + 10) &&
+      mouseX < startX + i * (swatchSize + 10) + swatchSize &&
+      mouseY > startY &&
+      mouseY < startY + swatchSize
+    ) {
+      if (colors[i].name.toLowerCase() === targetColor.toLowerCase()) {
+        currentColor = colors[i].value; // Set the shape's color
+        score++;
+        pickNewColor(); // Choose a new color
+      } else {
+        alert("Try again! That's not the right color.");
+      }
+      break;
+    }
+  }
+}
+
+function pickNewColor() {
+  // Randomly select a new color
+  let randomIndex = floor(random(colors.length));
+  targetColor = colors[randomIndex].name; // Set the color name the user needs to choose
+  currentColor = null; // Reset the current color
+}
+
+function drawScore() {
+  fill(0);
+  textSize(18);
+  text("Score: " + score, width - 100, 30);
+}

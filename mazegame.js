@@ -11,37 +11,21 @@ let maze = [
   [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
   [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
   [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-  [1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+  [1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
 let cellSize = 50;
-let path = [
-  [6, 1],
-  [6, 2],
-  [6, 3],
-  [6, 4],
-  [6, 5],
-  [6, 6],
-  [6, 7],
-  [5, 7],
-  [4, 7],
-  [3, 7],
-  [2, 7],
-  [2, 6],
-  [1, 6],
-  [0, 6],
-];
-let animalIndex = 0;
-let start = [6, 0];
-let finish = [0, 6];
-let message = "";
+let playerPos = [1, 1];  // Player's starting position (row, col)
+let start = [1, 1];  // Start position
+let finish = [7, 8];  // End position
+let message = "Move the red to the blue";
 
 function setup() {
   createCanvas(500, 500);
-  frameRate(2);
+  frameRate(10);
   textAlign(CENTER);
 }
 
@@ -49,7 +33,7 @@ function draw() {
   background(255);
   drawMaze();
   drawStartFinish();
-  drawAnimal();
+  drawPlayer();
   drawMessage();
 }
 
@@ -90,8 +74,8 @@ function drawStartFinish() {
   );
 }
 
-function drawAnimal() {
-  let [row, col] = path[animalIndex];
+function drawPlayer() {
+  let [row, col] = playerPos;
   fill(255, 0, 0);
   ellipse(
     col * cellSize + cellSize / 2,
@@ -107,25 +91,22 @@ function drawMessage() {
 }
 
 function keyPressed() {
-  let newIndex = animalIndex; // Start with current index
-  if (keyCode === UP_ARROW) {
-    newIndex = animalIndex - 1; // Move up in the path
-  } else if (keyCode === DOWN_ARROW) {
-    newIndex = animalIndex + 1; // Move down in the path
+  let [row, col] = playerPos;
+
+  // Determine the new position based on the key pressed
+  if (keyCode === UP_ARROW && row > 0 && maze[row - 1][col] === 0) {
+    playerPos = [row - 1, col];  // Move up
+  } else if (keyCode === DOWN_ARROW && row < maze.length - 1 && maze[row + 1][col] === 0) {
+    playerPos = [row + 1, col];  // Move down
+  } else if (keyCode === LEFT_ARROW && col > 0 && maze[row][col - 1] === 0) {
+    playerPos = [row, col - 1];  // Move left
+  } else if (keyCode === RIGHT_ARROW && col < maze[row].length - 1 && maze[row][col + 1] === 0) {
+    playerPos = [row, col + 1];  // Move right
   }
-
-  // Ensure the new index is within the bounds of the path
-  if (newIndex >= 0 && newIndex < path.length) {
-    let [nextRow, nextCol] = path[newIndex];
-
-    // Check if the next position is a wall (1) or a path (0)
-    if (maze[nextRow][nextCol] === 0) {
-      animalIndex = newIndex; // Update the animal's position
-      message = ""; // Clear message
-    } else {
-      message = "Invalid Move!"; // Set error message
-    }
-  } else {
-    message = "Invalid Move!"; // If out of bounds
+  
+  // Check if the player has reached the finish
+  if (playerPos[0] === finish[0] && playerPos[1] === finish[1]) {
+    message = "You win!";
   }
 }
+

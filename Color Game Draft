@@ -1,10 +1,3 @@
-function setup() {
-  createCanvas(400, 400);
-}
-
-function draw() {
-  background(220);
-}
 let colors = [
   { name: "Red", value: [255, 0, 0] },
   { name: "Green", value: [0, 255, 0] },
@@ -14,24 +7,43 @@ let colors = [
   { name: "Brown", value: [165, 42, 42] },
 ];
 
-let currentColor; // Color that needs to be chosen
-let targetColor; // The color name the user must choose
+let currentColor = [200, 200, 200]; 
+let targetColor; 
 let score = 0;
+let rounds = 0; // Track the number of rounds
+let message = ""; // Message to display for feedback
+let gameStarted = true; // Game starts immediately when the page loads
+
+// Confetti variables
+let confettiParticles = [];
+let confettiActive = false;
 
 function setup() {
   createCanvas(600, 400);
-  pickNewColor();
+  pickNewColor(); // Pick the first color for the game
 }
 
 function draw() {
-  background(255);
-  drawShape();
-  drawColors();
-  drawScore();
+  // Set a very pale light green background color
+  background(240, 255, 240); // RGB values for a pale green color
+
+  // If the game has started, run the game loop
+  if (gameStarted) {
+    drawShape();
+    drawColors();
+    drawScore();
+    drawMessage();
+  } else {
+    drawMessage();
+    if (confettiActive) {
+      displayConfetti();
+    }
+  }
 }
 
 function drawShape() {
-  fill(currentColor ? currentColor : [200, 200, 200]); // Default gray if not filled
+  // Draw the circle with the current color
+  fill(currentColor);
   ellipse(300, 200, 100, 100); // Shape to be colored
 
   fill(0);
@@ -48,49 +60,107 @@ function drawColors() {
   for (let i = 0; i < colors.length; i++) {
     fill(colors[i].value);
     rect(startX + i * (swatchSize + 10), startY, swatchSize, swatchSize);
-    fill(0);
-    textSize(12);
-    text(
-      colors[i].name,
-      startX + i * (swatchSize + 10) + swatchSize / 2,
-      startY + swatchSize + 15
-    );
   }
 }
 
 function mousePressed() {
-  let startX = 50;
-  let startY = 300;
-  let swatchSize = 50;
+  if (gameStarted && rounds < 10) {
+    let startX = 50;
+    let startY = 300;
+    let swatchSize = 50;
 
-  for (let i = 0; i < colors.length; i++) {
-    if (
-      mouseX > startX + i * (swatchSize + 10) &&
-      mouseX < startX + i * (swatchSize + 10) + swatchSize &&
-      mouseY > startY &&
-      mouseY < startY + swatchSize
-    ) {
-      if (colors[i].name.toLowerCase() === targetColor.toLowerCase()) {
-        currentColor = colors[i].value; // Set the shape's color
-        score++;
-        pickNewColor(); // Choose a new color
-      } else {
-        alert("Try again! That's not the right color.");
+    for (let i = 0; i < colors.length; i++) {
+      if (
+        mouseX > startX + i * (swatchSize + 10) &&
+        mouseX < startX + i * (swatchSize + 10) + swatchSize &&
+        mouseY > startY &&
+        mouseY < startY + swatchSize
+      ) {
+        if (colors[i].name.toLowerCase() === targetColor.toLowerCase()) {
+          currentColor = colors[i].value; // Set the shape's color to the correct one
+          score++;
+          rounds++; // Increment rounds after correct choice
+          pickNewColor(); // Pick a new color for the next round
+          message = "Correct! Well done!";
+
+          // If 10 rounds are reached, show confetti and end the game
+          if (rounds === 10) {
+            message = "Game Over! Your score: " + score;
+            gameStarted = false; // Stop the game
+            confettiActive = true; // Start the confetti effect
+            // Generate confetti particles
+            generateConfetti();
+            setTimeout(restartGame, 3000); // Restart after 3 seconds (3000 milliseconds)
+          }
+        } else {
+          currentColor = [200, 200, 200]; // Reset color to gray if incorrect
+          message = "Try again! That's not the right color.";
+        }
+        break;
       }
-      break;
     }
   }
 }
 
 function pickNewColor() {
-  // Randomly select a new color
+  // Randomly select a new color for the next round
   let randomIndex = floor(random(colors.length));
   targetColor = colors[randomIndex].name; // Set the color name the user needs to choose
-  currentColor = null; // Reset the current color
 }
 
 function drawScore() {
   fill(0);
   textSize(18);
   text("Score: " + score, width - 100, 30);
+}
+
+function drawMessage() {
+  fill(0);
+  textSize(16);
+  textAlign(CENTER);
+  text(message, width / 2, height - 50);
+}
+
+function generateConfetti() {
+  for (let i = 0; i < 100; i++) {
+    confettiParticles.push({
+      x: random(width),
+      y: random(-100, -10),
+      size: random(5, 15),
+      xSpeed: random(-2, 2),
+      ySpeed: random(2, 5),
+      color: color(random(255), random(255), random(255)),
+    });
+  }
+}
+
+function displayConfetti() {
+  for (let p of confettiParticles) {
+    fill(p.color);
+    noStroke();
+    ellipse(p.x, p.y, p.size);
+    p.x += p.xSpeed;
+    p.y += p.ySpeed;
+
+    // Reset particles when they go off screen
+    if (p.y > height) {
+      p.y = random(-100, -10);
+      p.x = random(width);
+    }
+  }
+}
+
+// Function to restart the game after the delay
+function restartGame() {
+  // Reset all the game variables to their initial values
+  score = 0;
+  rounds = 0;
+  currentColor = [200, 200, 200];
+  message = "";
+  confettiParticles = [];
+  confettiActive = false;
+  gameStarted = true;
+
+  // Pick a new color to start the next round
+  pickNewColor();
 }

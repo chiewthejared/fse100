@@ -2,35 +2,28 @@ let shapes = [];
 let shapeNames = ["Circle", "Square", "Triangle", "Rectangle", "Oval", "Pentagon"];
 let currentShape;
 let gameState = "prompt"; // prompt, correct, or next
-let nextButton;
+let nextButton1;
 let popUpVisible = false;
 let confettiParticles = [];
 let popUpTimer = 0; // Timer for showing the pop-up message
 
 function setup() {
-  createCanvas(700, 600);
+  createCanvas(600, 450);
   generateShapes();
   pickRandomShape();
 
-  nextButton = createButton('Next Shape');
-  nextButton.position(width - 120, height - 60);
-  nextButton.size(100, 40);
-  nextButton.mousePressed(nextRound);
-  nextButton.style('background-color', color(random(255), random(255), random(255)));
-  nextButton.style('color', 'white');
-  nextButton.style('font-size', '16px');
-  nextButton.hide(); // Initially hide the button
+  nextButton1 = createButton('Next Shape');
+  nextButton1.position(width - 120, height - 60);
+  nextButton1.size(100, 40);
+  nextButton1.mousePressed(nextRound);
+  nextButton1.style('background-color', color(random(255), random(255), random(255)));
+  nextButton1.style('color', 'white');
+  nextButton1.style('font-size', '16px');
+  nextButton1.hide(); // Initially hide the button
 }
 
 function draw() {
   background(240);
-
-  stroke(200);
-  strokeWeight(1); 
-  let stripeSpacing = 20;
-  for (let i = 0; i <= height; i += stripeSpacing) {
-    line(0, i, width, i);
-  }
 
   if (gameState === "prompt") {
     displayShapes();
@@ -43,7 +36,7 @@ function draw() {
     displayCorrectMessage();
     generateConfetti();
     displayConfetti();
-    nextButton.show(); // Show the button after a correct answer
+    nextButton1.show(); // Show the button after a correct answer
   } else if (gameState === "next") {
     displayNextShapes();
   }
@@ -52,7 +45,7 @@ function draw() {
 function generateShapes() {
   shapes = []; // Reset shapes array
   let cols = 3; 
-  let rows = 2; 
+  let rows = 3; 
   let w = width / cols;
   let h = height / rows;
   
@@ -70,7 +63,8 @@ function generateShapes() {
 function displayShapes() {
   for (let s of shapes) {
     fill(s.color);
-    noStroke();
+    stroke('black');
+    strokeWeight(2.5)
     s.shape(s.x, s.y);
   }
 }
@@ -96,7 +90,7 @@ function createShape(shapeName) {
       case "Pentagon":
         beginShape();
         for (let i = 0; i < 5; i++) {
-          vertex(x + 50 * cos((PI / 5) * i), y + 50 * sin((PI / 5) * i));
+          vertex(x + 70 * cos((PI / 3) * i), y + 70 * sin((PI / 3) * i));
         }
         endShape(CLOSE);
         break;
@@ -111,6 +105,7 @@ function pickRandomShape() {
 }
 
 function displayPrompt() {
+  noStroke();
   textSize(24);
   fill(0);
   textAlign(CENTER);
@@ -118,10 +113,11 @@ function displayPrompt() {
 }
 
 function displayCorrectMessage() {
+  noStroke();
   textSize(48);
   fill(0, 128, 0);
   textAlign(CENTER);
-  text("Correct!", width / 2, height / 2);
+  text("Correct!", width / 2, height / 1.3);
 }
 
 function generateConfetti() {
@@ -157,7 +153,7 @@ function displayPopUpMessage() {
   fill(255, 0, 0);
   textSize(32);
   textAlign(CENTER);
-  text("Incorrect, please try again!", width / 2, height / 2);
+  text("Incorrect, please try again!", width / 2, height / 1.3);
 }
 
 function mousePressed() {
@@ -170,7 +166,7 @@ function mousePressed() {
       if (s.name === currentShape.name && isMouseOverShape(s)) {
         clickedCorrect = true;
         gameState = "correct";
-        nextButton.show();
+        nextButton1.show();
         popUpVisible = false; // Hide pop-up on correct answer
         return; // Exit function when the correct shape is clicked
       }
@@ -209,7 +205,7 @@ function nextRound() {
   generateShapes();
   pickRandomShape();
   gameState = "prompt";
-  nextButton.hide();
+  nextButton1.hide();
   popUpVisible = false;
   confettiParticles = [];
 }

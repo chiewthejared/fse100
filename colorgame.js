@@ -6,6 +6,10 @@ let colors = [
   { name: "Orange", value: [255, 165, 0] },
   { name: "Brown", value: [165, 42, 42] },
 ];
+function preload(){
+whale = loadImage('whale.png');
+giraffe = loadImage('giraffe.png')
+}
 
 let currentColor = [200, 200, 200]; 
 let targetColor; 
@@ -19,13 +23,14 @@ let confettiParticles = [];
 let confettiActive = false;
 
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(600, 450);
   pickNewColor(); // Pick the first color for the game
 }
 
 function draw() {
+  
   // Set a very pale light green background color
-  background(240, 255, 270); // RGB values for a pale green color
+  background(200, 240, 270); // RGB values for a pale green color
 
   // If the game has started, run the game loop
   if (gameStarted) {
@@ -42,6 +47,14 @@ function draw() {
 }
 
 function drawShape() {
+  // Whale Image
+  push();
+  image(whale, 35, 120, 170, 170);
+  pop(); 
+  // Giraffe Image
+  push(); 
+  image(giraffe, 420, 135, 155, 145);
+  pop(); 
   // Draw the circle with the current color
   fill(currentColor);
   ellipse(300, 200, 100, 100); // Shape to be colored
@@ -54,7 +67,7 @@ function drawShape() {
 
 function drawColors() {
   let startX = 125;
-  let startY = 300;
+  let startY = 315;
   let swatchSize = 50;
 
   for (let i = 0; i < colors.length; i++) {
@@ -66,7 +79,7 @@ function drawColors() {
 function mousePressed() {
   if (gameStarted && rounds < 10) {
     let startX = 125;
-    let startY = 300;
+    let startY = 315;
     let swatchSize = 50;
 
     for (let i = 0; i < colors.length; i++) {
@@ -119,7 +132,7 @@ function drawMessage() {
   fill(0);
   textSize(22);
   textAlign(CENTER);
-  text(message, width / 2, height - 20);
+  text(message, width / 2, height - 35);
 }
 
 function generateConfetti() {

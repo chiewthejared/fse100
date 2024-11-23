@@ -23,7 +23,7 @@ function setup() {
 }
 
 function draw() {
-  background(240);
+  background(200, 240, 270);
 
   if (gameState === "prompt") {
     displayShapes();

@@ -1,7 +1,7 @@
-let song;
 let currentScreen = 0;
 
-// For Screen 1
+// For Menus
+let song;
 let circleX1 = 100, circleY1 = 400, xSpeed1 = 1.5, ySpeed1 = 1.5;
 let circleX2 = 500, circleY2 = 50, xSpeed2 = -1.2, ySpeed2 = -1.2;
 let circleX3 = 150, circleY3 = 350, xSpeed3 = 1.0, ySpeed3 = -1.5;
@@ -11,9 +11,28 @@ let circleX6 = 400, circleY6 = 150, xSpeed6 = 1.4, ySpeed6 = -1.4;
 let circleX7 = 250, circleY7 = 250, xSpeed7 = -1.5, ySpeed7 = 1.3;
 let circleX8 = 100, circleY8 = 250, xSpeed8 = 1.5, ySpeed8 = 1.3;
 
+// For Maze Game
+let maze = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1],
+  [1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
+  [1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+  [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+  [1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+  [1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
+let cellSize = 50;
+let playerPos = [1, 1]; 
+let start = [1, 1];
+let finish = [7, 10];
+let message = "Move the red to the blue";
+
+
+// Confetti
 let confetti = [];
 let confettiColor = ['#ff8b00', '#ff0051', '#ff4db8', '#b5ff8b', '#8bc6ff', '#d8ff8b', '#c38bff', '#ff8b8b'];
-
 class Confetti {
   constructor(_x, _y, _s) {
     this.x = _x;
@@ -26,7 +45,6 @@ class Confetti {
     this.size = random(10, 20);
     this.form = round(random(0, 1));
   }
-
   confettiDisplay() {
     fill(this.color);
     noStroke();
@@ -42,12 +60,12 @@ class Confetti {
       ellipse(0, 0, this.size);
     }
     pop();
-
     this.time += 0.1;
     this.speed += 1 / 200;
     this.y += this.speed;
   }
 }
+
 function setup() {
   createCanvas(600, 450);
   
@@ -63,24 +81,24 @@ function setup() {
   quitToGameSelectButton.position(240, 300);
   quitToGameSelectButton.mousePressed(goToScreen2);
 
-  skill1Button = createButton('Motor Skill 1');
+  skill1Button = createButton('Maze Game');
   skill1Button.position(150, 90);
-  skill1Button.mousePressed(goToScreen4);
-  skill1Button.hide(); // Start hidden
+  skill1Button.mousePressed(goToScreen3);
+  skill1Button.hide();
 
-  skill2Button = createButton('Motor Skill 2');
-  skill2Button.position(150, 180);
-  skill2Button.mousePressed(goToScreen5);
+  skill2Button = createButton('Shape Game');
+  skill2Button.position(140, 180);
+  skill2Button.mousePressed(goToScreen4);
   skill2Button.hide(); 
 
-  skill3Button = createButton('Motor Skill 3');
+  skill3Button = createButton('Color Game');
   skill3Button.position(150, 270);
-  skill3Button.mousePressed(goToScreen6);
+  skill3Button.mousePressed(goToScreen5);
   skill3Button.hide(); 
   
   nextButton = createButton('Next');
   nextButton.position(30,350);
-  nextButton.mousePressed(goToScreen7);
+  nextButton.mousePressed(goToScreen2);
   nextButton.hide();
 }
 
@@ -116,9 +134,7 @@ function goToScreen5() {
 function goToScreen6() {
   currentScreen = 5;
 }
-function goToScreen7(){
-  currentScreen = 6;
-}
+
 
 function draw() {
   if(currentScreen === 0) {
@@ -133,9 +149,8 @@ function draw() {
     screen5();
   } else if (currentScreen === 5) {
     screen6();
-  } else if (currentScreen === 6) {
-      screen7();
   }
+  
   if (currentScreen === 0 || currentScreen === 1) {
     if (!song.isPlaying()) {
       song.play();
@@ -351,60 +366,106 @@ function screen2() {
   nextButton.hide();
 }
 
-//Quit Screen
+// Maze Game
 function screen3() {
-  background('maroon');
-  
-  fill(255);
-  textSize(35);
-  text('Bye!', 200, 200);
-
-  // Hide all buttons
+  drawMaze();
+  drawStartFinish();
+  drawPlayer();
+  drawMessage();
   playButton.hide();
-  quitToMenuButton.hide();
   quitToGameSelectButton.hide();
+  quitToMenuButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
+  nextButton.hide();
+}
+function drawMaze() {
+  for (let row = 0; row < maze.length; row++) {
+    for (let col = 0; col < maze[row].length; col++) {
+      fill(maze[row][col] === 1 ? 0 : 255); // black for walls, white for paths
+      rect(col * cellSize, row * cellSize, cellSize, cellSize);
+    }
+  }
+}
+function drawStartFinish() {
+  fill(0, 255, 0);
+  ellipse(
+    start[1] * cellSize + cellSize / 2,
+    start[0] * cellSize + cellSize / 2,
+    cellSize / 2
+  );
+  fill(0, 0, 255);
+  ellipse(
+    finish[1] * cellSize + cellSize / 2,
+    finish[0] * cellSize + cellSize / 2,
+    cellSize / 2
+  );
+  fill(0);
+  textSize(16);
+  text(
+    "Start",
+    start[1] * cellSize + cellSize / 2,
+    start[0] * cellSize + cellSize + 20
+  );
+  text(
+    "End",
+    finish[1] * cellSize + cellSize / 2,
+    finish[0] * cellSize + cellSize + 20
+  );
+}
+function drawPlayer() {
+  let [row, col] = playerPos;
+  fill(255, 0, 0);
+  ellipse(
+    col * cellSize + cellSize / 2,
+    row * cellSize + cellSize / 2,
+    cellSize / 2
+  );
+}
+function drawMessage() {
+  fill(255);
+  textSize(16);
+  text(message, 300, 30);
+}
+function keyPressed() {
+  let [row, col] = playerPos;
+
+  // Determine the new position based on the key pressed
+  if (keyCode === UP_ARROW && row > 0 && maze[row - 1][col] === 0) {
+    playerPos = [row - 1, col];  // Move up
+  } else if (keyCode === DOWN_ARROW && row < maze.length - 1 && maze[row + 1][col] === 0) {
+    playerPos = [row + 1, col];  // Move down
+  } else if (keyCode === LEFT_ARROW && col > 0 && maze[row][col - 1] === 0) {
+    playerPos = [row, col - 1];  // Move left
+  } else if (keyCode === RIGHT_ARROW && col < maze[row].length - 1 && maze[row][col + 1] === 0) {
+    playerPos = [row, col + 1];  // Move right
+  }
+  // Check if the player has reached the finish
+  if (playerPos[0] === finish[0] && playerPos[1] === finish[1]) {
+    currentScreen = 5;
+  }
 }
 
+// Shape Game
 function screen4() {
   background(100, 105, 105);
   
   fill(255);
   textSize(35);
-  text('Motor Skill 1 Screen', 150, 50);
-
+  text('Motor Skill 2 Screen', 200, 200);
   
   playButton.hide();
-  quitToGameSelectButton.show();
-  quitToGameSelectButton.position(450, 350);
-  quitToMenuButton.hide();
+  quitToGameSelectButton.hide();
+  quitToMenuButton.show();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
   nextButton.show();
 }
+
 
 function screen5() {
-  background(100, 105, 105);
-  
-  fill(255);
-  textSize(35);
-  text('Motor Skill 2 Screen', 200, 200);
-
-  
-  playButton.hide();
-  quitToGameSelectButton.show();
-  quitToGameSelectButton.position(450, 350);
-  quitToMenuButton.hide();
-  skill1Button.hide();
-  skill2Button.hide();
-  skill3Button.hide();
-  nextButton.show();
-}
-
-function screen6() {
   background(100, 105, 105);
   
   fill(255);
@@ -422,7 +483,7 @@ function screen6() {
   nextButton.show();
 }
 
-function screen7() {
+function screen6() {
    background('#FDE791');
   
    fill(0);

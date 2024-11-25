@@ -66,47 +66,75 @@ class Confetti {
   }
 }
 
+// Screen 6
+let hasPlayedScreen6Sound = false;
+
 function setup() {
   createCanvas(600, 450);
   
   playButton = createButton('Play');
   playButton.position(240, 200);
-  playButton.mousePressed(goToScreen2);
+  playButton.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen2();
+  });
   
   quitToMenuButton = createButton('Quit');
   quitToMenuButton.position(240, 300);
-  quitToMenuButton.mousePressed(goToScreen1);
+  quitToMenuButton.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen1();
+  });
   
   quitToGameSelectButton = createButton('Quit');
   quitToGameSelectButton.position(240, 300);
-  quitToGameSelectButton.mousePressed(goToScreen2);
+  quitToGameSelectButton.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen2();
+  });
 
   skill1Button = createButton('Maze Game');
   skill1Button.position(150, 90);
-  skill1Button.mousePressed(goToScreen3);
+  skill1Button.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen3();
+  });
   skill1Button.hide();
 
   skill2Button = createButton('Shape Game');
   skill2Button.position(140, 180);
-  skill2Button.mousePressed(goToScreen4);
+  skill2Button.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen4();
+  });
   skill2Button.hide(); 
 
   skill3Button = createButton('Color Game');
   skill3Button.position(150, 270);
-  skill3Button.mousePressed(goToScreen5);
+  skill3Button.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen5();
+  });
   skill3Button.hide(); 
   
   nextButton = createButton('Next');
   nextButton.position(30,350);
-  nextButton.mousePressed(goToScreen2);
+  nextButton.mousePressed(() => {
+    playMenuButtonSound();
+    goToScreen2();
+  });
   nextButton.hide();
 }
 
 function preload(){
-  song = loadSound('Menu Music.mp3', () => {
-    song.loop();
+  menuMusic = loadSound('Menu Music.mp3', () => {
+    menuMusic.loop();
   });
-  
+  menuButtonMusic = loadSound('Menu Button Music.mp3');
+  screen6Sound = loadSound('Complete Sound Effect.mp3');
+  gameMusic = loadSound('Game Music.mp3', () => {
+    gameMusic.loop();
+  });
   whale = loadImage('whale.png');
   giraffe = loadImage('giraffe.png')
 }
@@ -152,14 +180,30 @@ function draw() {
   }
   
   if (currentScreen === 0 || currentScreen === 1) {
-    if (!song.isPlaying()) {
-      song.play();
+    if (!menuMusic.isPlaying()) {
+      menuMusic.play();
     }
   } else {
-    if (song.isPlaying()) {
-      song.stop();
+    if (menuMusic.isPlaying()) {
+      menuMusic.stop();
     } 
   }
+  if (currentScreen === 2 || currentScreen === 3 || currentScreen === 4) {
+    if (!gameMusic.isPlaying()) {
+      gameMusic.play();
+    }
+  } else {
+    if (gameMusic.isPlaying()) {
+      gameMusic.stop();
+    } 
+  }
+}
+
+function playMenuButtonSound() {
+  if (menuButtonMusic.isPlaying()) {
+    menuButtonMusic.stop();
+  }
+  menuButtonMusic.play();
 }
 
 function screen1() {
@@ -366,8 +410,8 @@ function screen2() {
   nextButton.hide();
 }
 
-// Maze Game
 function screen3() {
+  // MAZE GAME
   drawMaze();
   drawStartFinish();
   drawPlayer();
@@ -402,12 +446,13 @@ function drawStartFinish() {
     cellSize / 2
   );
   fill(0);
-  textSize(16);
+  textSize(18);
   text(
     "Start",
-    start[1] * cellSize + cellSize / 2,
+    (start[1] * cellSize + cellSize / 2) + 1.5,
     start[0] * cellSize + cellSize + 20
   );
+  fill(255);
   text(
     "End",
     finish[1] * cellSize + cellSize / 2,
@@ -425,8 +470,8 @@ function drawPlayer() {
 }
 function drawMessage() {
   fill(255);
-  textSize(16);
-  text(message, 300, 30);
+  textSize(30);
+  text(message, 300, 35);
 }
 function keyPressed() {
   let [row, col] = playerPos;
@@ -484,9 +529,9 @@ function screen5() {
 }
 
 function screen6() {
-   background('#FDE791');
+  background('#FDE791');
   
-   fill(0);
+  fill(0);
   textSize(35);
   text('Congrats On Learning How To', 300, 120);
   text('Motor Skill!', 300, 200);
@@ -512,6 +557,11 @@ function screen6() {
   push(); 
   image(giraffe, 2, 250, 175, 165);
   pop();
+  
+  if (!hasPlayedScreen6Sound) {
+    screen6Sound.play();
+    hasPlayedScreen6Sound = true;
+  }
   
   playButton.hide();
   quitToGameSelectButton.show();

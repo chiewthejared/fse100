@@ -572,3 +572,4 @@ function screen6() {
   skill3Button.hide();
   nextButton.hide();
 }
+

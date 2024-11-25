@@ -6,6 +6,8 @@ let nextButton1;
 let popUpVisible = false;
 let confettiParticles = [];
 let popUpTimer = 0; // Timer for showing the pop-up message
+let score = 0;
+let gameWon = false;
 
 function setup() {
   createCanvas(600, 450);
@@ -24,10 +26,16 @@ function setup() {
 
 function draw() {
   background(200, 240, 270);
+  
+  if (gameWon) {
+    displayWinMessage();
+    return; // Stop drawing further game elements
+  }
 
   if (gameState === "prompt") {
     displayShapes();
     displayPrompt();
+    displayScore();
     if (popUpVisible) {
       displayPopUpMessage();
     }
@@ -36,6 +44,7 @@ function draw() {
     displayCorrectMessage();
     generateConfetti();
     displayConfetti();
+    displayScore();
     nextButton1.show(); // Show the button after a correct answer
   } else if (gameState === "next") {
     displayNextShapes();
@@ -73,24 +82,24 @@ function createShape(shapeName) {
   return function(x, y) {
     switch (shapeName) {
       case "Circle":
-        ellipse(x, y, 100);
+        ellipse(x, y + 40, 100);
         break;
       case "Square":
-        rect(x - 50, y - 50, 100, 100);
+        rect(x - 50, y - 10, 100, 100);
         break;
       case "Triangle":
-        triangle(x, y - 50, x - 50, y + 50, x + 50, y + 50);
+        triangle(x, y - 10, x - 50, y + 80, x + 50, y + 80);
         break;
       case "Rectangle":
-        rect(x - 75, y - 50, 150, 100);
+        rect(x - 75, y - 20, 150, 100);
         break;
       case "Oval":
-        ellipse(x, y, 150, 100);
+        ellipse(x, y + 30, 150, 100);
         break;
       case "Pentagon":
         beginShape();
         for (let i = 0; i < 5; i++) {
-          vertex(x + 70 * cos((PI / 3) * i), y + 70 * sin((PI / 3) * i));
+          vertex(x + 70 * cos((PI / 3.5) * i), y + 80 * sin((PI / 3.5) * i));
         }
         endShape(CLOSE);
         break;
@@ -156,6 +165,25 @@ function displayPopUpMessage() {
   text("Incorrect, please try again!", width / 2, height / 1.3);
 }
 
+function displayScore() {
+  noStroke();
+  textSize(24);
+  fill(0);
+  textAlign(RIGHT);
+  text("Score: " + score, 570, 40);
+}
+
+function displayWinMessage() {
+  noStroke();
+  textSize(68);
+  fill(0, 128, 0);
+  textAlign(CENTER);
+  text("You Win!", width / 2, height / 2);
+  generateConfetti();
+  displayConfetti();
+  nextButton1.hide();
+}
+
 function mousePressed() {
   if (gameState === "prompt" || gameState === "next") {
     let clickedCorrect = false;
@@ -167,15 +195,16 @@ function mousePressed() {
         clickedCorrect = true;
         gameState = "correct";
         nextButton1.show();
-        popUpVisible = false; // Hide pop-up on correct answer
-        return; // Exit function when the correct shape is clicked
+         score++;
+        if (score === 10) {
+          gameWon = true;
+        }
+        return;
       }
-      // If the user clicks any incorrect shape, show the "Incorrect" pop-up
       if (s.name !== currentShape.name && isMouseOverShape(s)) {
         clickedWrong = true;
       }
     }
-
     // If the user clicked a wrong shape, show the pop-up message
     if (clickedWrong) {
       popUpVisible = true;

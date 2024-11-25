@@ -45,8 +45,19 @@ let currentColor = [200, 200, 200];
 let targetColor; 
 let colorScore = 0;
 let rounds = 0; // Track the number of rounds
-let colorGameMessage = ""; // Message to display for feedback
+let colorMessage = ""; // Message to display for feedback
 let gameStarted = true; // Game starts immediately when the page loads
+
+// For Shape Game
+let shapes = [];
+let shapeNames = ["Circle", "Square", "Triangle", "Rectangle", "Oval", "Pentagon"];
+let currentShape;
+let gameState = "prompt"; // prompt, correct, or next
+let nextButton1;
+let popUpVisible = false;
+let popUpTimer = 0; // Timer for showing the pop-up message
+let score1 = 0;
+let gameWon = false;
 
 // Confetti
 let confetti = [];
@@ -87,17 +98,6 @@ class Confetti {
 // Screen 6
 let hasPlayedScreen6Sound = false;
 
-// Color Game
-let shapes = [];
-let shapeNames = ["Circle", "Square", "Triangle", "Rectangle", "Oval", "Pentagon"];
-let currentShape;
-let gameState = "prompt"; // prompt, correct, or next
-let nextButton1;
-let popUpVisible = false;
-let popUpTimer = 0; // Timer for showing the pop-up message
-let score1 = 0;
-let gameWon = false;
-
 function setup() {
   createCanvas(600, 450);
   
@@ -109,7 +109,7 @@ function setup() {
   });
   
   quitToMenuButton = createButton('Quit');
-  quitToMenuButton.position(340, 300);
+  quitToMenuButton.position(240, 300);
   quitToMenuButton.mousePressed(() => {
     playMenuButtonSound();
     goToScreen1();
@@ -130,16 +130,16 @@ function setup() {
   });
   skill1Button.hide();
 
-  skill2Button = createButton('Shape Game');
-  skill2Button.position(140, 180);
+  skill2Button = createButton('Color Game');
+  skill2Button.position(150, 180);
   skill2Button.mousePressed(() => {
     playMenuButtonSound();
     goToScreen4();
   });
   skill2Button.hide(); 
 
-  skill3Button = createButton('Color Game');
-  skill3Button.position(150, 270);
+  skill3Button = createButton('Shape Game');
+  skill3Button.position(140, 270);
   skill3Button.mousePressed(() => {
     playMenuButtonSound();
     goToScreen5();
@@ -531,9 +531,18 @@ function keyPressed() {
   }
 }
 
+function mousePressed(){
+  if (currentScreen === 4){
+    mousePressedForScreen4();
+  }
+  else if (currentScreen === 5){
+    mousePressedForScreen5();
+  }
+}
+
 function screen4() {
   // COLOR GAME
-  background(200, 240, 270);
+  background(255);
   hasPlayedScreen6Sound = false;
   
   if (gameStarted) {
@@ -576,7 +585,7 @@ function drawColors() {
   }
 }
 
-function mousePressed() {
+function mousePressedForScreen4() {
   if (gameStarted && rounds < 10) {
     let startX = 125;
     let startY = 315;
@@ -594,18 +603,16 @@ function mousePressed() {
           colorScore++;
           rounds++; // Increment rounds after correct choice
           pickNewColor(); // Pick a new color for the next round
-          message = "Correct! Well done!";
+          colorMessage = "Correct! Well done!";
           
 
           // If 10 rounds are reached, show confetti and end the game
           if (rounds === 10) {
-            message = "Game Over! Your score: " + colorScore;
-            gameStarted = false; // Stop the game
-            setTimeout(restartGame, 3000); // Restart after 3 seconds (3000 milliseconds)
+            currentScreen = 5;
           }
         } else {
           currentColor = [200, 200, 200]; // Reset color to gray if incorrect
-          message = "Try again! That's not the right color.";
+          colorMessage = "Try again! That's not the right color.";
         }
         break;
       }
@@ -626,10 +633,10 @@ function drawScore() {
 }
 function restartGame() {
   // Reset all the game variables to their initial values
-  score = 0;
+  colorScore = 0;
   rounds = 0;
   currentColor = [200, 200, 200];
-  message = "";
+  colorMessage = "";
   gameStarted = true;
   // Pick a new color to start the next round
   pickNewColor();
@@ -649,7 +656,7 @@ function screen5() {
   skill2Button.hide();
   skill3Button.hide();
   nextButton.hide();
-  
+  nextButton1.hide();
 
   background(200, 240, 270);
   
@@ -769,7 +776,7 @@ function displayScore() {
   text("Score: " + score1, 570, 40);
 }
 
-function mousePressed() {
+function mousePressedForScreen5() {
   if (gameState === "prompt" || gameState === "next") {
     let clickedCorrect = false;
     let clickedWrong = false;
@@ -783,6 +790,7 @@ function mousePressed() {
          score1++;
         if (score1 === 10) {
           gameWon = true;
+          currentScreen = 5;
         }
         return;
       }
@@ -804,7 +812,7 @@ function isMouseOverShape(shape) {
     case "Square":
       return mouseX > shape.x - 50 && mouseX < shape.x + 50 && mouseY > shape.y - 50 && mouseY < shape.y + 50;
     case "Triangle":
-      return mouseY > shape.y - 50 && mouseY < shape.y + 50 && mouseX > shape.x - 50 && mouseX < shape.x + 50;
+      return mouseY > shape.y - 80 && mouseY < shape.y + 80 && mouseX > shape.x - 50 && mouseX < shape.x + 50;
     case "Rectangle":
       return mouseX > shape.x - 75 && mouseX < shape.x + 75 && mouseY > shape.y - 50 && mouseY < shape.y + 50;
     case "Oval":
@@ -824,6 +832,7 @@ function nextRound() {
 
 }
 
+
 function screen6() {
   background('#FDE791');
   
@@ -835,6 +844,7 @@ function screen6() {
   textSize(20);
   text('Feel Free To Learn The', 300, 280);
   text('Other Motor Skills!', 300, 320);
+  textAlign(CENTER);
   
    if (confetti.length < 100) {
     confetti.push(new Confetti(random(width), 0, random(0.5, 2)));
@@ -867,5 +877,4 @@ function screen6() {
   skill2Button.hide();
   skill3Button.hide();
   nextButton.hide();
-  nextButton1.hide();
 }

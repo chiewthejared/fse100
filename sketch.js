@@ -43,9 +43,9 @@ let gameColors = [
 ];
 let currentColor = [200, 200, 200]; 
 let targetColor; 
-let score = 0;
+let colorScore = 0;
 let rounds = 0; // Track the number of rounds
-let colorGameMessage = ""; // Message to display for feedback
+let colorMessage = ""; // Message to display for feedback
 let gameStarted = true; // Game starts immediately when the page loads
 
 // Confetti
@@ -119,16 +119,16 @@ function setup() {
   });
   skill1Button.hide();
 
-  skill2Button = createButton('Shape Game');
-  skill2Button.position(140, 180);
+  skill2Button = createButton('Color Game');
+  skill2Button.position(150, 180);
   skill2Button.mousePressed(() => {
     playMenuButtonSound();
     goToScreen4();
   });
   skill2Button.hide(); 
 
-  skill3Button = createButton('Color Game');
-  skill3Button.position(150, 270);
+  skill3Button = createButton('Shape Game');
+  skill3Button.position(140, 270);
   skill3Button.mousePressed(() => {
     playMenuButtonSound();
     goToScreen5();
@@ -508,7 +508,7 @@ function keyPressed() {
 
 function screen4() {
   // COLOR GAME
-  background(200, 240, 270);
+  background(255);
   hasPlayedScreen6Sound = false;
   
   if (gameStarted) {
@@ -565,21 +565,21 @@ function mousePressed() {
       ) {
         if (gameColors[i].name.toLowerCase() === targetColor.toLowerCase()) {
           currentColor = gameColors[i].value; // Set the shape's color to the correct one
-          score++;
+          colorScore++;
           rounds++; // Increment rounds after correct choice
           pickNewColor(); // Pick a new color for the next round
-          message = "Correct! Well done!";
+          colorMessage = "Correct! Well done!";
           
 
           // If 10 rounds are reached, show confetti and end the game
           if (rounds === 10) {
-            message = "Game Over! Your score: " + score;
+            colorMessage = "Game Over! Your score: " + colorScore;
             gameStarted = false; // Stop the game
-            setTimeout(restartGame, 3000); // Restart after 3 seconds (3000 milliseconds)
+            setTimeout(restartGame, 1); // Restart after 3 seconds (3000 milliseconds)
           }
         } else {
           currentColor = [200, 200, 200]; // Reset color to gray if incorrect
-          message = "Try again! That's not the right color.";
+          colorMessage = "Try again! That's not the right color.";
         }
         break;
       }
@@ -596,14 +596,14 @@ function pickNewColor() {
 function drawScore() {
   fill(0);
   textSize(20);
-  text("Score: " + score, width - 70, 40);
+  text("Score: " + colorScore, width - 70, 40);
 }
 function restartGame() {
   // Reset all the game variables to their initial values
-  score = 0;
+  colorScore = 0;
   rounds = 0;
   currentColor = [200, 200, 200];
-  message = "";
+  colorMessage = "";
   gameStarted = true;
   // Pick a new color to start the next round
   pickNewColor();
@@ -673,4 +673,3 @@ function screen6() {
   skill3Button.hide();
   nextButton.hide();
 }
-

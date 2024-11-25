@@ -1,6 +1,9 @@
 let currentScreen = 0;
 
 // For Menus
+let colors = [
+    [4, 55, 242], [0, 71, 171], [137, 207, 240], [65,105,225]
+  ];
 let song;
 let circleX1 = 100, circleY1 = 400, xSpeed1 = 1.5, ySpeed1 = 1.5;
 let circleX2 = 500, circleY2 = 50, xSpeed2 = -1.2, ySpeed2 = -1.2;
@@ -29,6 +32,21 @@ let start = [1, 1];
 let finish = [7, 10];
 let message = "Move the red to the blue";
 
+// For Color Game
+let gameColors = [
+  { name: "Red", value: [255, 0, 0] },
+  { name: "Green", value: [0, 255, 0] },
+  { name: "Blue", value: [0, 0, 255] },
+  { name: "Yellow", value: [255, 255, 0] },
+  { name: "Orange", value: [255, 165, 0] },
+  { name: "Brown", value: [165, 42, 42] },
+];
+let currentColor = [200, 200, 200]; 
+let targetColor; 
+let score = 0;
+let rounds = 0; // Track the number of rounds
+let colorGameMessage = ""; // Message to display for feedback
+let gameStarted = true; // Game starts immediately when the page loads
 
 // Confetti
 let confetti = [];
@@ -124,6 +142,8 @@ function setup() {
     goToScreen2();
   });
   nextButton.hide();
+  
+  pickNewColor();
 }
 
 function preload(){
@@ -179,7 +199,7 @@ function draw() {
     screen6();
   }
   
-  if (currentScreen === 0 || currentScreen === 1) {
+  if (currentScreen === 0 || currentScreen === 1 || currentScreen === 5) {
     if (!menuMusic.isPlaying()) {
       menuMusic.play();
     }
@@ -209,10 +229,6 @@ function playMenuButtonSound() {
 function screen1() {
   // MAIN MENU SCREEN - JARED
   background(100, 149, 237);
-
-  let colors = [
-    [4, 55, 242], [0, 71, 171], [137, 207, 240], [65,105,225]
-  ];
 
   // Circle1 (Working)
   fill(colors[3]);
@@ -314,10 +330,6 @@ function screen2() {
   // GAME SELECT SCREEN - JARED
   background(100, 149, 237);
   
-    let colors = [
-    [4, 55, 242], [0, 71, 171], [137, 207, 240], [65,105,225]
-  ];
-
   // Circle1 (Working)
   fill(colors[3]);
   circle(circleX1, circleY1, 150);
@@ -412,6 +424,7 @@ function screen2() {
 
 function screen3() {
   // MAZE GAME
+  hasPlayedScreen6Sound = false;
   drawMaze();
   drawStartFinish();
   drawPlayer();
@@ -489,29 +502,117 @@ function keyPressed() {
   // Check if the player has reached the finish
   if (playerPos[0] === finish[0] && playerPos[1] === finish[1]) {
     currentScreen = 5;
+    playerPos = [1, 1];
   }
 }
 
-// Shape Game
 function screen4() {
-  background(100, 105, 105);
+  // COLOR GAME
+  background(200, 240, 270);
+  hasPlayedScreen6Sound = false;
   
-  fill(255);
-  textSize(35);
-  text('Motor Skill 2 Screen', 200, 200);
-  
+  if (gameStarted) {
+    drawShape();
+    drawColors();
+    drawScore();
+    drawMessage();
+  } else {
+    currentScreen = 5;
+  }
   playButton.hide();
   quitToGameSelectButton.hide();
-  quitToMenuButton.show();
+  quitToMenuButton.hide();
   skill1Button.hide();
   skill2Button.hide();
   skill3Button.hide();
-  nextButton.show();
+  nextButton.hide();
+}
+
+function drawShape() {
+  // Draw the circle with the current color
+  fill(currentColor);
+  ellipse(300, 200, 100, 100); // Shape to be colored
+
+  fill(0);
+  textSize(35);
+  textAlign(CENTER);
+  text("Press The " + targetColor + " Box!", width / 2, 100);
+}
+
+function drawColors() {
+  let startX = 125;
+  let startY = 315;
+  let swatchSize = 50;
+
+  for (let i = 0; i < gameColors.length; i++) {
+    fill(gameColors[i].value);
+    rect(startX + i * (swatchSize + 10), startY, swatchSize, swatchSize);
+  }
+}
+
+function mousePressed() {
+  if (gameStarted && rounds < 10) {
+    let startX = 125;
+    let startY = 315;
+    let swatchSize = 50;
+
+    for (let i = 0; i < gameColors.length; i++) {
+      if (
+        mouseX > startX + i * (swatchSize + 10) &&
+        mouseX < startX + i * (swatchSize + 10) + swatchSize &&
+        mouseY > startY &&
+        mouseY < startY + swatchSize
+      ) {
+        if (gameColors[i].name.toLowerCase() === targetColor.toLowerCase()) {
+          currentColor = gameColors[i].value; // Set the shape's color to the correct one
+          score++;
+          rounds++; // Increment rounds after correct choice
+          pickNewColor(); // Pick a new color for the next round
+          message = "Correct! Well done!";
+          
+
+          // If 10 rounds are reached, show confetti and end the game
+          if (rounds === 10) {
+            message = "Game Over! Your score: " + score;
+            gameStarted = false; // Stop the game
+            setTimeout(restartGame, 3000); // Restart after 3 seconds (3000 milliseconds)
+          }
+        } else {
+          currentColor = [200, 200, 200]; // Reset color to gray if incorrect
+          message = "Try again! That's not the right color.";
+        }
+        break;
+      }
+    }
+  }
+}
+
+function pickNewColor() {
+  // Randomly select a new color for the next round
+  let randomIndex = floor(random(colors.length));
+  targetColor = gameColors[randomIndex].name; // Set the color name the user needs to choose
+}
+
+function drawScore() {
+  fill(0);
+  textSize(20);
+  text("Score: " + score, width - 70, 40);
+}
+function restartGame() {
+  // Reset all the game variables to their initial values
+  score = 0;
+  rounds = 0;
+  currentColor = [200, 200, 200];
+  message = "";
+  gameStarted = true;
+  // Pick a new color to start the next round
+  pickNewColor();
 }
 
 
 function screen5() {
   background(100, 105, 105);
+  hasPlayedScreen6Sound = false;
   
   fill(255);
   textSize(35);
@@ -533,7 +634,7 @@ function screen6() {
   
   fill(0);
   textSize(35);
-  text('Congrats On Learning How To', 300, 120);
+  text('Level Completed', 300, 120);
   text('Motor Skill!', 300, 200);
   fill(0);
   textSize(20);

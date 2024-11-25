@@ -1,30 +1,23 @@
-function setup() {
-  createCanvas(400, 400);
-}
-
-function draw() {
-  background(220);
-}
 let maze = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-  [1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
-  [1, 0, 1, 0, 1, 0, 0, 1, 0, 1],
-  [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-  [1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1],
+  [1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
+  [1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+  [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+  [1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+  [1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
 let cellSize = 50;
 let playerPos = [1, 1];  // Player's starting position (row, col)
 let start = [1, 1];  // Start position
-let finish = [7, 8];  // End position
+let finish = [7, 10];  // End position
 let message = "Move the red to the blue";
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(600, 450);
   frameRate(10);
   textAlign(CENTER);
 }
@@ -85,9 +78,9 @@ function drawPlayer() {
 }
 
 function drawMessage() {
-  fill(0);
+  fill(255);
   textSize(16);
-  text(message, width / 2, height - 20);
+  text(message, 300, 30);
 }
 
 function keyPressed() {

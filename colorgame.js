@@ -18,31 +18,22 @@ let rounds = 0; // Track the number of rounds
 let message = ""; // Message to display for feedback
 let gameStarted = true; // Game starts immediately when the page loads
 
-// Confetti variables
-let confettiParticles = [];
-let confettiActive = false;
-
 function setup() {
   createCanvas(600, 450);
   pickNewColor(); // Pick the first color for the game
 }
 
 function draw() {
-  
-  // Set a very pale light green background color
   background(200, 240, 270); // RGB values for a pale green color
 
-  // If the game has started, run the game loop
   if (gameStarted) {
     drawShape();
     drawColors();
     drawScore();
     drawMessage();
   } else {
-    drawMessage();
-    if (confettiActive) {
-      displayConfetti();
-    }
+    window.open("index.html", "_blank");
+    restartGame() ;
   }
 }
 
@@ -128,43 +119,7 @@ function drawScore() {
   text("Score: " + score, width - 70, 40);
 }
 
-function drawMessage() {
-  fill(0);
-  textSize(22);
-  textAlign(CENTER);
-  text(message, width / 2, height - 35);
-}
 
-function generateConfetti() {
-  for (let i = 0; i < 100; i++) {
-    confettiParticles.push({
-      x: random(width),
-      y: random(-100, -10),
-      size: random(5, 15),
-      xSpeed: random(-2, 2),
-      ySpeed: random(2, 5),
-      color: color(random(255), random(255), random(255)),
-    });
-  }
-}
-
-function displayConfetti() {
-  for (let p of confettiParticles) {
-    fill(p.color);
-    noStroke();
-    ellipse(p.x, p.y, p.size);
-    p.x += p.xSpeed;
-    p.y += p.ySpeed;
-
-    // Reset particles when they go off screen
-    if (p.y > height) {
-      p.y = random(-100, -10);
-      p.x = random(width);
-    }
-  }
-}
-
-// Function to restart the game after the delay
 function restartGame() {
   // Reset all the game variables to their initial values
   score = 0;

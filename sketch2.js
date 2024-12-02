@@ -531,14 +531,7 @@ function keyPressed() {
   }
 }
 
-function mousePressed(){
-  if (currentScreen === 4){
-    mousePressedForScreen4();
-  }
-  else if (currentScreen === 5){
-    mousePressedForScreen5();
-  }
-}
+
 
 function screen4() {
   // COLOR GAME
@@ -585,7 +578,7 @@ function drawColors() {
   }
 }
 
-function mousePressedForScreen4() {
+function mousePressed() {
   if (gameStarted && rounds < 10) {
     let startX = 125;
     let startY = 315;
@@ -776,7 +769,7 @@ function displayScore() {
   text("Score: " + score1, 570, 40);
 }
 
-function mousePressedForScreen5() {
+function mouseClicked() {
   if (gameState === "prompt" || gameState === "next") {
     let clickedCorrect = false;
     let clickedWrong = false;
@@ -877,4 +870,5 @@ function screen6() {
   skill2Button.hide();
   skill3Button.hide();
   nextButton.hide();
+  nextButton1.hide();
 }
